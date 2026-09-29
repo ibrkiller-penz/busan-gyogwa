@@ -21,7 +21,8 @@ function perSemester(c) {
   return null
 }
 
-const bucket = (c, g) => (c.mergeTamgu && GROUP.탐구.includes(g) ? '탐구' : g)
+// 사회/과학을 한 교과로 묶는 대학은 한국사도 사회로 친다
+const bucket = (c, g) => (c.mergeTamgu && [...GROUP.탐구, '한국사'].includes(g) ? '탐구' : g)
 
 export function csatLabel(track) {
   const a = track.csatMinimum.applies

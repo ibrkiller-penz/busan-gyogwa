@@ -152,8 +152,7 @@ export default function Home() {
           </p>
         ))}
         <p className="note-line">
-          <span className="pill pill-warn">확인 중</span>
-          <span>2028 시행계획에 적히지 않아 2027 모집요강 값을 넣은 항목입니다. 숫자의 근거는 <Link to="/documents">대학별 원문</Link>에서 받아 볼 수 있습니다.</span>
+          <span>모든 숫자는 각 대학 2028학년도 시행계획 원문에서 옮겼습니다. 원문은 <Link to="/documents">원문 자료</Link>에서 받아 볼 수 있습니다.</span>
         </p>
       </section>
     </>

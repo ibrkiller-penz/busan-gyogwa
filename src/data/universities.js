@@ -513,7 +513,7 @@ const privates8 = [
   },
 ];
 
-// ── 국공립·대형 사립 6곳: 2028 시행계획 원문 대조 끝 (동아대 과목 수만 2027 요강) ──
+// ── 국공립·대형 사립 6곳: 2028 시행계획 원문 대조 끝 ──
 
 const pusanPlan = {
   title: "2028학년도 부산대학교 대학입학전형 기본계획(통합 반영)",
@@ -566,6 +566,15 @@ const PKNU_CAREER = {
 };
 const PKNU_NOTE = "등급은 상세 석차등급 80% + 학업성취등급 20%로 계산합니다. 교과 900점 + 출석 100점.";
 const EACH3 = { subjectTop: { n: 3, per: "교과", total: 12 }, mergeTamgu: true };
+
+// 동아대: 2028 시행계획 부록 「학교생활기록부 세부 반영방법」 49~50쪽
+const DONGA_POOL = { 공통: ["국어", "수학", "영어", "사회", "한국사", "과학"] };
+const DONGA_SCORE = { 1: 10, 2: 8, 3: 6, 4: 4, 5: 0 };
+const DONGA_CAREER = limit => ({
+  mode: "성취도환산",
+  detail: `진로선택(국·영·수 융합선택 포함)은 성취도를 A=1등급 … E=5등급으로 바꿔 최대 4과목까지 넣을 수 있음 (${limit})`,
+});
+const DONGA_NOTE = "기본 880점 + 과목당 1등급 10점·2등급 8점·3등급 6점·4등급 4점·5등급 0점(이수단위 가중), 만점 1,000점. 한국사는 사회 교과로 칩니다.";
 
 const others6 = [
   {
@@ -838,47 +847,52 @@ const others6 = [
       track({
         trackName: "교과성적우수자전형",
         quota: 939,
-        verified: false,
         elements: { gyogwa: 100, document: 0, interview: 0, attendance: 0 },
-        csatMinimum: { applies: "전체", detail: "1개 영역 4등급 이내" },
+        csatMinimum: { applies: "전체", detail: "인문·자연·자유전공 1개 영역 4등급 이내, 간호학과 등 2개 영역 등급 합 7 이내" },
         gradeMethod: {
-          subjectsByField: PNU_POOL,
-          careerElective: { mode: "석차등급", detail: "2027 요강: 진로선택은 교과별 1과목씩 최대 4과목" },
-          count: { ...EACH3, quote: "반영교과별 석차등급 상위 3과목 반영(총 12과목) — 2027 모집요강" },
+          subjectsByField: DONGA_POOL,
+          careerElective: DONGA_CAREER("교과별 1과목씩"),
+          convergenceElective: { mode: "미반영", detail: "사회·과학 융합선택은 제외" },
+          count: { ...EACH3, quote: "학년 구분 없이 3학년 1학기까지 - 교과별 석차등급 상위 3과목 반영(총 12과목)" },
+          gradeScoreTable: DONGA_SCORE,
         },
-        notes: "2028 시행계획은 과목 수를 '세부 반영방법 참조'로만 적었습니다. 반영 과목 수는 2027 모집요강 값이니 2028 모집요강에서 다시 확인하세요.",
-        sources: src(dongaPlan, "3"),
+        notes: DONGA_NOTE,
+        sources: src(dongaPlan, "18·49·50"),
       }),
       track({
         trackName: "지역인재교과전형",
         category: "지역인재 교과",
         quota: 691,
-        verified: false,
         elements: { gyogwa: 100, document: 0, interview: 0, attendance: 0 },
-        csatMinimum: { applies: "전체", detail: "2개 영역 등급 합 10 이내" },
+        csatMinimum: { applies: "전체", detail: "인문·자연·자유전공 2개 영역 등급 합 10 이내 (의예과 3개 영역 합 4 이내)" },
         gradeMethod: {
-          subjectsByField: PNU_POOL,
-          careerElective: { mode: "석차등급", detail: "2027 요강: 진로선택 최대 2과목" },
-          count: top(12, "반영교과 중 상위 12과목 반영 — 2027 모집요강", {
-            exceptions: [{ unit: "의예과", text: "전 과목, 교과 80 + 서류 20" }],
+          subjectsByField: DONGA_POOL,
+          careerElective: DONGA_CAREER("교과별 개수 제한 없음"),
+          convergenceElective: { mode: "미반영", detail: "사회·과학 융합선택은 제외" },
+          count: top(12, "학년 구분 없이 3학년 1학기까지 - 교과별 구분 없이 석차등급 상위 12과목 반영", {
+            exceptions: [{ unit: "의예과", text: "반영 방법 따로 정함, 교과 80 + 서류 20" }],
           }),
+          gradeScoreTable: DONGA_SCORE,
         },
-        notes: "반영 과목 수는 2027 모집요강 값입니다.",
-        sources: src(dongaPlan, "3"),
+        notes: DONGA_NOTE,
+        sources: src(dongaPlan, "19·49·50"),
       }),
       track({
         trackName: "교과진로우수자전형",
+        category: "성취도 교과",
         quota: 239,
-        verified: false,
         elements: { gyogwa: 80, document: 20, interview: 0, attendance: 0 },
-        csatMinimum: { applies: "전체", detail: "1개 영역 4등급 이내" },
+        csatMinimum: { applies: "전체", detail: "인문·자연 1개 영역 4등급 이내, 간호학과·석당인재학부 2개 영역 등급 합 7 이내" },
         gradeMethod: {
-          subjectsByField: PNU_POOL,
-          careerElective: { mode: "석차등급", detail: "2027 요강: 진로선택 최대 6과목" },
-          count: top(12, "석차등급 상위 12과목 — 2027 모집요강"),
+          basis: "성취도",
+          subjectsByField: DONGA_POOL,
+          careerElective: "성취도",
+          convergenceElective: { mode: "미반영", detail: "사회·과학 융합선택은 제외" },
+          count: top(12, "학년 구분 없이 3학년 1학기까지 - 교과별 구분 없이 성취도 상위 12과목 반영"),
+          achievementScoreTable: { A: 10, B: 8, C: 6, D: 4, E: 0 },
         },
-        notes: "반영 과목 수는 2027 모집요강 값입니다.",
-        sources: src(dongaPlan, "3"),
+        notes: "등급이 아니라 성취도(A~E)로 계산합니다. 공통·일반·진로선택 모두 성취도로 넣고 A를 1등급처럼 칩니다. 기본 880점 + 과목당 점수.",
+        sources: src(dongaPlan, "20·50"),
       }),
     ],
   },

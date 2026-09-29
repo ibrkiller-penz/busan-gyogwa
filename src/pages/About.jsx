@@ -36,7 +36,7 @@ export default function About() {
           <ul>
             <li>각 대학 <b>2028학년도 대학입학전형 시행계획</b>(2026년 4월 공표) 원문을 기준으로 합니다.</li>
             <li>대학별 원문 파일은 <Link to="/documents">원문 자료</Link>에서 바로 받을 수 있습니다.</li>
-            <li>2028 시행계획에 적히지 않아 2027 모집요강 값을 넣은 항목(동아대 반영 과목 수)에는 <span className="pill pill-warn">확인 중</span>을 붙였습니다. 대학 상세 화면마다 근거 문서와 쪽수를 적었습니다.</li>
+            <li>대학 상세 화면마다 원문 문장과 쪽수를 적었습니다. 본문에 '세부 반영방법 참조'라고만 적은 대학은 같은 파일 뒤쪽 부록에서 옮겼습니다.</li>
             <li>포함 대학 {universities.length}곳: {universities.map(u => u.shortName).join(', ')}</li>
             {excluded.map(x => <li key={x.name}>{x.name}은 빠졌습니다 — {x.reason}</li>)}
           </ul>
