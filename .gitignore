@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Firebase
+.firebase/
+
+# 대학 원문 PDF·HWP 원본(약 30MB) — 사이트에 올린 사본은 public/plans/에 따로 있다
+자료/**/*.pdf
+자료/**/*.hwp
+자료/**/*.hwpx
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

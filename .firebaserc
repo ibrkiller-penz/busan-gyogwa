@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "susi-3c093"
+  },
+  "targets": {
+    "susi-3c093": {
+      "hosting": {
+        "busan-gyogwa": ["busan-gyogwa"]
+      }
+    }
+  }
+}
